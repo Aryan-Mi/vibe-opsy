@@ -7,7 +7,7 @@
 	justify-content: center;
 	height: 100vh;
 	width: 100vw;
-	background: #1a4ba0;
+	background: #0a0a0a;
 	position: relative;
 	cursor: pointer;
 }
@@ -24,13 +24,13 @@
 	font-weight: 900;
 	font-size: clamp(5rem, 18vw, 14rem);
 	letter-spacing: 0.02em;
-	color: #c8deff;
+	color: #33ff33;
 	text-transform: uppercase;
 	position: relative;
 	z-index: 1;
 	/* Subtle glow like CRT phosphor */
-	text-shadow: 0 0 30px rgba(200, 222, 255, 0.4),
-		0 0 60px rgba(200, 222, 255, 0.2);
+	text-shadow: 0 0 30px rgba(51, 255, 51, 0.4),
+		0 0 60px rgba(51, 255, 51, 0.2);
 }
 
 .ibm-logo-stripes {
@@ -44,32 +44,32 @@
 		0deg,
 		transparent 0%,
 		transparent 10%,
-		#1a4ba0 10%,
-		#1a4ba0 14%,
+		#0a0a0a 10%,
+		#0a0a0a 14%,
 		transparent 14%,
 		transparent 24%,
-		#1a4ba0 24%,
-		#1a4ba0 28%,
+		#0a0a0a 24%,
+		#0a0a0a 28%,
 		transparent 28%,
 		transparent 38%,
-		#1a4ba0 38%,
-		#1a4ba0 42%,
+		#0a0a0a 38%,
+		#0a0a0a 42%,
 		transparent 42%,
 		transparent 52%,
-		#1a4ba0 52%,
-		#1a4ba0 56%,
+		#0a0a0a 52%,
+		#0a0a0a 56%,
 		transparent 56%,
 		transparent 66%,
-		#1a4ba0 66%,
-		#1a4ba0 70%,
+		#0a0a0a 66%,
+		#0a0a0a 70%,
 		transparent 70%,
 		transparent 80%,
-		#1a4ba0 80%,
-		#1a4ba0 84%,
+		#0a0a0a 80%,
+		#0a0a0a 84%,
 		transparent 84%,
 		transparent 94%,
-		#1a4ba0 94%,
-		#1a4ba0 98%,
+		#0a0a0a 94%,
+		#0a0a0a 98%,
 		transparent 98%,
 		transparent 100%
 	);
@@ -106,12 +106,12 @@
 .press-key-text {
 	font-family: "Courier New", monospace;
 	font-size: clamp(0.9rem, 2vw, 1.3rem);
-	color: #c8deff;
+	color: #33ff33;
 	position: absolute;
 	bottom: 15%;
 	text-align: center;
 	opacity: 0;
-	text-shadow: 0 0 15px rgba(200, 222, 255, 0.5);
+	text-shadow: 0 0 15px rgba(51, 255, 51, 0.5);
 }
 
 .press-key-text.show {

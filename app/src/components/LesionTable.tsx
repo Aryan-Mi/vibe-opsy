@@ -23,6 +23,29 @@ export function LesionTable({ results, isScanning }: LesionTableProps) {
     r.probability > max.probability ? r : max
   , results[0]);
 
+  // Determine if the highest result is cancerous
+  const getHighestLesion = () => {
+    if (!highestResult) return null;
+    return LESION_CATEGORIES.find(l => l.code === highestResult.lesionCode);
+  };
+
+  const highestLesion = getHighestLesion();
+  const isCancerous = highestLesion?.cancerous ?? false;
+  const highProbability = highestResult && highestResult.probability > 0.5;
+
+  const getDiagnosisMessage = () => {
+    if (!results) return null;
+    if (isCancerous && highProbability) {
+      return { text: 'WARNING: POTENTIAL CANCEROUS LESION DETECTED', className: 'danger' };
+    } else if (isCancerous) {
+      return { text: 'CAUTION: POSSIBLE CANCEROUS LESION - CONSULT DOCTOR', className: 'warning' };
+    } else {
+      return { text: 'NO CANCEROUS LESIONS DETECTED', className: 'safe' };
+    }
+  };
+
+  const diagnosis = getDiagnosisMessage();
+
   return (
     <div className="lesion-table-container">
       <div className="lesion-table-header">
@@ -65,6 +88,14 @@ export function LesionTable({ results, isScanning }: LesionTableProps) {
       {isScanning && (
         <div className="scanning-indicator">
           SCANNING IMAGE... PLEASE WAIT
+        </div>
+      )}
+
+      {diagnosis && !isScanning && (
+        <div className="diagnosis-summary">
+          <p className={`diagnosis-text ${diagnosis.className}`}>
+            {diagnosis.text}
+          </p>
         </div>
       )}
     </div>

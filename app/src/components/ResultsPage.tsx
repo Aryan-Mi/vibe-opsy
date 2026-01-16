@@ -115,10 +115,10 @@ export function ResultsPage({ imageFile, onBack }: ResultsPageProps) {
       <LesionTable results={results} isScanning={isScanning} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <ImagePreview imageUrl={imageUrl} fileName={imageFile.name} />
-        <p className="back-instruction">
-          Press Esc/Backspace to go back...
-        </p>
       </div>
+      <p className="back-instruction">
+        Press Esc/Backspace to go back...
+      </p>
     </div>
   );
 }

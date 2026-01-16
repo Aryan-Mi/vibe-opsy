@@ -1,5 +1,6 @@
 import { useGLTF, Html, Center } from '@react-three/drei'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
+import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { AppState } from '../App'
 import ScreenUI from './ScreenUI'
@@ -12,10 +13,45 @@ interface ComputerProps {
 export default function Computer({ appState, onFileUpload }: ComputerProps) {
   const { scene } = useGLTF('/macintosh.glb')
   const screenRef = useRef<THREE.Group>(null)
+  const groupRef = useRef<THREE.Group>(null)
+  
+  // Start tilted up, animate to final position
+  const [targetRotation] = useState(0.05)
+  const [currentRotation, setCurrentRotation] = useState(-0.15) // Start tilted up
+  const [isAnimating, setIsAnimating] = useState(true)
+
+  useEffect(() => {
+    // After a short delay, trigger the animation to final position
+    const timeout = setTimeout(() => {
+      setIsAnimating(true)
+    }, 100)
+    return () => clearTimeout(timeout)
+  }, [])
+
+  // Animate the rotation smoothly
+  useFrame(() => {
+    if (isAnimating && groupRef.current) {
+      const diff = targetRotation - currentRotation
+      if (Math.abs(diff) > 0.001) {
+        const newRotation = currentRotation + diff * 0.05
+        setCurrentRotation(newRotation)
+        groupRef.current.rotation.x = newRotation
+      } else {
+        setCurrentRotation(targetRotation)
+        groupRef.current.rotation.x = targetRotation
+        setIsAnimating(false)
+      }
+    }
+  })
 
   return (
     <Center>
-      <group scale={2.4} rotation={[0.05, 0, 0]} position={[0, -0.15, 0]}>
+      <group 
+        ref={groupRef}
+        scale={2.4} 
+        rotation={[currentRotation, 0, 0]} 
+        position={[0, -0.15, 0]}
+      >
         {/* The Macintosh model */}
         <primitive object={scene} />
 

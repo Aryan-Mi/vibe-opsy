@@ -42,9 +42,12 @@ export default function Receipt({ result, onDismiss }: ReceiptProps) {
   // Generate random transaction ID
   const transactionId = Math.random().toString(36).substring(2, 10).toUpperCase()
 
-  // Prevent event propagation to the 3D canvas
-  const handlePointerDown = (e: React.PointerEvent) => {
-    e.stopPropagation()
+  // Handle backdrop click to dismiss, but don't interfere with drag
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    // Only dismiss if clicking directly on the backdrop
+    if (e.target === e.currentTarget) {
+      onDismiss()
+    }
   }
 
   return (
@@ -52,12 +55,10 @@ export default function Receipt({ result, onDismiss }: ReceiptProps) {
       ref={constraintsRef}
       className="fixed inset-0 flex items-center justify-center z-50"
       style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)' }}
-      onPointerDown={handlePointerDown}
-      onPointerMove={(e) => e.stopPropagation()}
-      onPointerUp={(e) => e.stopPropagation()}
+      onClick={handleBackdropClick}
     >
       <motion.div
-        className="receipt-paper cursor-grab active:cursor-grabbing"
+        className="receipt-paper cursor-grab active:cursor-grabbing touch-none"
         style={{ x, opacity, rotate }}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
@@ -71,6 +72,7 @@ export default function Receipt({ result, onDismiss }: ReceiptProps) {
           damping: 15,
           delay: 0.2,
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Torn top edge */}
         <div className="receipt-torn-edge top" />

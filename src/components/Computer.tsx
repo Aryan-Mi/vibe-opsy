@@ -56,7 +56,7 @@ export default function Computer({ appState, onFileUpload }: ComputerProps) {
         <primitive object={scene} />
 
         {/* Screen overlay group - positioned at the CRT location */}
-        <group ref={screenRef} position={[0, 0.085, 0.135]}>
+        <group ref={screenRef} position={[0, 0.115, 0.135]}>
           <Html
             transform
             distanceFactor={0.5}

@@ -1,63 +1,29 @@
-Goal
-Build a React SPA front-end app using Vite + TypeScript for a light-hearted MLOps demo called Vibe-Opsy. This first iteration is a mock-up only: all model behavior is simulated with timeouts, loading states, and animated transitions.
+Goal:
+Build a SPA front-end app MLOps demo project called Vibe-Opsy. This first iteration is a mock-up only: all model behavior is simulated with timeouts, loading states, and animated transitions.
 
-Project description
-- Vibe-Opsy is a playful front-end app for a skin-lesion detection demo (Harvard dataset).
-- The experience starts with a bold landing page that introduces the concept.
-- The user uploads an image, sees an animated “processing” step, and then transitions to a results summary.
-- There is no real backend in this version; all results are mocked.
+Project description:
+- Vibe-Opsy is a front-end app for a skin-lesion detection demo (Harvard dataset).
+- The experience starts with a grainy/crt effect type of screen filling the entire like as if the PC/TV just turned on after a second of delay
+  - Then the logo/title (Vibe-Opsy) slowly renders in the center. 
+  - The logo should exactly look like the old IBM logos where its giant, light and with dark stripes going through it horizontally.
+  - And at the bottom we should have the text which says "Press any key to upload your image...", which is a reference to "Press any key to continue..."
+- After a succesful image upload, the screen should transition into a new page (keep the grain/crt effect).
+  - The page is split into 2 columns:
+    1. First column is inspired by the old file lists on an IBM computer designs. But here instead of showing file list, it shows the list of skin lesion categories.
+       - The list text color should be the matrix green with black/gray background.
+       - The list should include multiple columns like lesion name, code, cancerous and results (based on user's scanned image).
+    2. Second column on the right should be like an retro looking image preview of the user's uploaded image.
+       - The image should have the same matrix colored border and the same ibm or retro pc feel
+       - Make sure that the image preview size is mixed. So that no matter the image, the components layout and size is always the same
+       - And then finally, under the image there should be a text which say "Press Esc/Back to go back..."
 
-Mocked flow
-- Upload button triggers a faux “scan” sequence (progress, subtle UI reactions).
-- After a short delay (2–3s), transition to a results view.
-- Results include a mock label, confidence, and a playful “receipt” printout.
 
-
-Technical requirements
-- Vite + React + TypeScript
+Technical requirements:
 - Package manager: pnpm
-- 3D option: react-three-fiber (three.js) for lightweight 3D/illusion
-- Motion option: motion.dev for UI transitions and sequencing
+- Everything else should be derived based on what makes sense for the scope of this project.
+- Note that nothing is installed or setup yet.
 
-
-Design moodboard
-- Retro medical kiosk aesthetic: clinical cues + supermarket receipt register vibes.
-- Sharp corners, bold UI frames, and slightly industrial/diagnostic motifs.
-- Use a custom retro font (placeholder to be swapped later).
-- Neutral/sterile/medical palette (cool neutrals + muted accents).
-- Include a 3D element or illusion (e.g., kiosk/scanner or receipt printer).
-- Receipt-print animation after upload, showing date + mock result.
-
-Proposed structure
-- Landing view
-  - Hero title, short description, retro UI accents.
-  - CTA upload button + drag-and-drop target.
-- Scan/processing view
-  - Animated “scan” treatment, progress indicator, playful copy.
-  - Ambient motion and micro-interactions.
-- Results view
-  - Summary (label + confidence + short explanation).
-  - Receipt printout with timestamp, app title, warnings, barcode, and result details.
-  - Reset/“Scan another” action.
-
-Components (initial)
-- AppShell: background, global layout, theme tokens.
-- LandingHero: headline, CTA, short copy.
-- UploadPanel: drag/drop, file picker, preview thumbnail.
-- ScannerStage: progress/scan animation.
-- ResultsCard: label/confidence + short explanation.
-- ReceiptPrinter: animated print effect + receipt markup.
-
-State and flow (mocked)
-- Idle -> Uploading -> Scanning -> Result.
-- Simulated delays with setTimeout and animation sequencing.
-- Optional: seeded mock results for consistency.
-
-Receipt content (mocked)
-- Header: "Vibe-Opsy Results" + scan timestamp.
-- Warning labels: "Mock demo, not medical advice."
-- Result section: primary label + confidence.
-- Category checklist (7 classes):
+Skin lesion categories (7 classes):
   - Melanocytic nevi
   - Melanoma
   - Benign keratosis
@@ -65,22 +31,3 @@ Receipt content (mocked)
   - Actinic keratoses
   - Vascular lesions
   - Dermatofibroma
-- Visuals: fake barcode + receipt footer.
-
-Implementation decisions (initial)
-- Single continuous screen with animated state swaps (no routing).
-- Use motion.dev for transitions and sequencing.
-- Use CSS 3D/illusion for the kiosk/receipt (subtle, not hero-sized).
-- Receipt shows exactly one positive category and the rest negative.
-- Primary result label mapping is TBD; iterate after first build.
-
-Tone
-- Lighthearted and subtle humor; playful but not silly.
-
-Accessibility and UX
-- Keyboard-friendly upload and buttons.
-- Clear loading states and reduced motion fallback.
-- Responsive layout (mobile-first, then desktop).
-
-Non-goals for iteration 1
-- Backend integration, real inference, authentication.

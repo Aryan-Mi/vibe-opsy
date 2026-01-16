@@ -1,0 +1,401 @@
+@import "tailwindcss";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+/* ===== APP LAYOUT ===== */
+.app-container {
+	width: 100vw;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
+	background: #1a1a1a;
+}
+
+/* ===== 3D HTML SCREEN WRAPPER ===== */
+.screen-html-wrapper {
+	pointer-events: auto !important;
+}
+
+.screen-html-wrapper > div {
+	transform-style: preserve-3d;
+}
+
+/* ===== RETRO BRUTALIST BACKGROUND ===== */
+.background-layer {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+	z-index: 0;
+}
+
+.grid-pattern {
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0.03) 1px,
+			transparent 1px
+		),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+	background-size: 50px 50px;
+}
+
+/* Brutalist geometric shapes */
+.brutalist-shape {
+	position: absolute;
+	background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+	opacity: 0.1;
+}
+
+.shape-1 {
+	width: 300px;
+	height: 300px;
+	top: -100px;
+	left: -100px;
+	transform: rotate(45deg);
+}
+
+.shape-2 {
+	width: 200px;
+	height: 200px;
+	bottom: -50px;
+	right: -50px;
+	background: linear-gradient(135deg, #00ff41 0%, #00cc33 100%);
+	transform: rotate(15deg);
+}
+
+.shape-3 {
+	width: 150px;
+	height: 400px;
+	top: 20%;
+	right: 5%;
+	background: linear-gradient(180deg, #ff6b35 0%, transparent 100%);
+	opacity: 0.05;
+	transform: skewY(-10deg);
+}
+
+.shape-4 {
+	width: 150px;
+	height: 400px;
+	bottom: 10%;
+	left: 5%;
+	background: linear-gradient(0deg, #00ff41 0%, transparent 100%);
+	opacity: 0.05;
+	transform: skewY(10deg);
+}
+
+/* Corner accents */
+.corner-accent {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	border: 2px solid rgba(255, 107, 53, 0.3);
+}
+
+.corner-accent.top-left {
+	top: 20px;
+	left: 20px;
+	border-right: none;
+	border-bottom: none;
+}
+
+.corner-accent.top-right {
+	top: 20px;
+	right: 20px;
+	border-left: none;
+	border-bottom: none;
+}
+
+.corner-accent.bottom-left {
+	bottom: 20px;
+	left: 20px;
+	border-right: none;
+	border-top: none;
+	border-color: rgba(0, 255, 65, 0.3);
+}
+
+.corner-accent.bottom-right {
+	bottom: 20px;
+	right: 20px;
+	border-left: none;
+	border-top: none;
+	border-color: rgba(0, 255, 65, 0.3);
+}
+
+/* Background scanlines */
+.scanlines-bg {
+	position: absolute;
+	inset: 0;
+	background: repeating-linear-gradient(
+		0deg,
+		transparent 0px,
+		transparent 2px,
+		rgba(0, 0, 0, 0.1) 2px,
+		rgba(0, 0, 0, 0.1) 4px
+	);
+	pointer-events: none;
+}
+
+/* ===== HEADER ===== */
+.app-header {
+	position: absolute;
+	top: 30px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 10;
+	text-align: center;
+}
+
+.app-title {
+	font-family: "Courier New", monospace;
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: #ff6b35;
+	letter-spacing: 0.5em;
+	text-shadow: 0 0 10px rgba(255, 107, 53, 0.5),
+		0 0 20px rgba(255, 107, 53, 0.3), 2px 2px 0 #000;
+	margin-bottom: 0.5rem;
+}
+
+.app-subtitle {
+	font-family: "Courier New", monospace;
+	font-size: 0.75rem;
+	color: rgba(255, 255, 255, 0.5);
+	letter-spacing: 0.3em;
+}
+
+/* ===== 3D CANVAS ===== */
+.canvas-3d {
+	position: absolute !important;
+	inset: 0;
+	z-index: 1;
+}
+
+/* ===== FOOTER ===== */
+.app-footer {
+	position: absolute;
+	bottom: 30px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.footer-text {
+	font-family: "Courier New", monospace;
+	font-size: 0.65rem;
+	color: rgba(0, 255, 65, 0.6);
+	letter-spacing: 0.2em;
+}
+
+.footer-divider {
+	color: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== CRT SCREEN EFFECTS ===== */
+.crt-screen {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: #000;
+	border-radius: 4px;
+}
+
+.crt-screen::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: repeating-linear-gradient(
+		0deg,
+		rgba(0, 0, 0, 0.15) 0px,
+		rgba(0, 0, 0, 0.15) 1px,
+		transparent 1px,
+		transparent 2px
+	);
+	pointer-events: none;
+	z-index: 10;
+}
+
+.crt-screen::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(
+		ellipse at center,
+		transparent 0%,
+		rgba(0, 0, 0, 0.2) 80%,
+		rgba(0, 0, 0, 0.5) 100%
+	);
+	pointer-events: none;
+	z-index: 11;
+}
+
+.crt-scanline {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		to bottom,
+		transparent 50%,
+		rgba(0, 255, 65, 0.02) 50%
+	);
+	background-size: 100% 4px;
+	pointer-events: none;
+	z-index: 12;
+	animation: scanlines 0.1s linear infinite;
+}
+
+@keyframes scanlines {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: 0 4px;
+	}
+}
+
+.crt-flicker {
+	animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+	0% {
+		opacity: 0.97;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0.98;
+	}
+}
+
+/* ===== RETRO UI ELEMENTS ===== */
+.retro-button {
+	font-family: "Chicago", "Geneva", sans-serif;
+	background: linear-gradient(to bottom, #fff 0%, #ddd 50%, #bbb 100%);
+	border: 2px solid #000;
+	border-radius: 4px;
+	box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #888, 2px 2px 0 #000;
+	padding: 8px 24px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: all 0.1s;
+}
+
+.retro-button:hover {
+	background: linear-gradient(to bottom, #eee 0%, #ccc 50%, #aaa 100%);
+}
+
+.retro-button:active {
+	box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #888;
+	transform: translate(1px, 1px);
+}
+
+/* ===== TERMINAL TEXT ===== */
+.terminal-text {
+	font-family: "Courier New", monospace;
+	color: #00ff41;
+	text-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41;
+}
+
+/* ===== RECEIPT STYLES ===== */
+.receipt-paper {
+	position: relative;
+	width: 380px;
+	font-family: "Courier New", monospace;
+	filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.4));
+}
+
+.receipt-content {
+	background: 
+    /* Subtle noise texture */ url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"),
+		/* Paper gradient */
+			linear-gradient(
+				to bottom,
+				#faf8f3 0%,
+				#f5f2e8 20%,
+				#f0ece0 50%,
+				#ebe6d8 80%,
+				#e5e0d2 100%
+			);
+	padding: 32px 28px;
+	position: relative;
+	/* Aged paper appearance */
+	box-shadow: inset 0 0 60px rgba(139, 119, 85, 0.1),
+		inset 0 0 20px rgba(0, 0, 0, 0.03);
+}
+
+/* Subtle stain effects for authenticity */
+.receipt-content::before {
+	content: "";
+	position: absolute;
+	top: 20%;
+	left: 10%;
+	width: 80%;
+	height: 60%;
+	background: radial-gradient(
+		ellipse at 30% 40%,
+		rgba(180, 160, 120, 0.05) 0%,
+		transparent 50%
+	);
+	pointer-events: none;
+}
+
+/* Torn paper edge effect */
+.receipt-torn-edge {
+	height: 12px;
+	width: 100%;
+	position: relative;
+}
+
+.receipt-torn-edge.top {
+	background: linear-gradient(135deg, #f5f2e8 33.33%, transparent 33.33%),
+		linear-gradient(225deg, #f5f2e8 33.33%, transparent 33.33%);
+	background-size: 12px 12px;
+	background-color: transparent;
+}
+
+.receipt-torn-edge.bottom {
+	background: linear-gradient(45deg, #e5e0d2 33.33%, transparent 33.33%),
+		linear-gradient(-45deg, #e5e0d2 33.33%, transparent 33.33%);
+	background-size: 12px 12px;
+	background-color: transparent;
+}
+
+.receipt-header {
+	border-bottom: 2px dashed #4a453d;
+}
+
+.receipt-footer {
+	border-top: 2px dashed #4a453d;
+}
+
+.dot-matrix {
+	font-family: "Courier New", monospace;
+	letter-spacing: 1px;
+	text-shadow: 0.5px 0.5px 0 rgba(0, 0, 0, 0.1);
+}
+
+.dithered {
+	filter: grayscale(100%) contrast(1.2);
+	image-rendering: pixelated;
+}
+
+/* Old receipt text styling - slightly faded print */
+.receipt-content {
+	color: #2d2a24;
+}

@@ -132,14 +132,14 @@ function AnalyzingScreen() {
         setTerminalLines((prev) => [...prev, lines[lineIndex]])
         lineIndex++
       }
-    }, 400)
+    }, 1000) // Slower: ~7 seconds for all lines
 
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) return 100
-        return prev + 3
+        return prev + 1.25 // Slower: ~8 seconds to reach 100%
       })
-    }, 80)
+    }, 100) // Update every 100ms
 
     return () => {
       clearInterval(lineInterval)

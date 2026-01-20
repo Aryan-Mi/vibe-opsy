@@ -38,7 +38,13 @@ function App() {
     setResult((prev) => ({ ...prev, image: imageUrl }))
     setAppState('ANALYZING')
 
-    // Mock analysis - 3 second timeout
+    // Play dial-up sound effect
+    const audio = new Audio('/dial-up-effect.mp3')
+    audio.play().catch(error => {
+      console.log('Audio playback failed:', error)
+    })
+
+    // Mock analysis - minimum 8 seconds to match sound effect duration
     setTimeout(() => {
       const diagnoses = ['Benign', 'Melanoma', 'Basal Cell Carcinoma', 'Seborrheic Keratosis']
       const randomDiagnosis = diagnoses[Math.floor(Math.random() * diagnoses.length)]
@@ -50,7 +56,7 @@ function App() {
         confidence: randomConfidence,
       }))
       setAppState('RESULT')
-    }, 3000)
+    }, 8000)
   }
 
   const handleDismissReceipt = () => {

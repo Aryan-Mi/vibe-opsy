@@ -123,9 +123,18 @@ export default function Receipt({ result, onDismiss }: ReceiptProps) {
               <p className="text-sm text-gray-600 tracking-widest">ANALYSIS RESULT</p>
             </div>
             <div className="text-center py-2">
-              <p className="text-2xl font-black dot-matrix tracking-wider text-gray-900">
+              <p className="text-2xl font-black dot-matrix tracking-wider text-gray-900 leading-tight">
                 {result.diagnosis.toUpperCase()}
               </p>
+              {result.is_cancer !== undefined && (
+                <p
+                  className={`text-xs font-bold mt-2 tracking-widest uppercase border inline-block px-2 py-1 ${
+                    result.is_cancer ? 'text-red-700 border-red-700' : 'text-green-700 border-green-700'
+                  }`}
+                >
+                  {result.is_cancer ? '⚠️ MALIGNANT DETECTED' : '✓ BENIGN'}
+                </p>
+              )}
             </div>
             <div className="mt-5 flex justify-between items-center text-base text-gray-800">
               <span className="font-medium">Confidence:</span>

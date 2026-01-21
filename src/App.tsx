@@ -3,6 +3,7 @@ import { OrbitControls } from '@react-three/drei'
 import { Suspense, useState, useEffect } from 'react'
 import Scene from './components/Scene'
 import Receipt from './components/Receipt'
+import { analyzeSkinLesion } from './services/api'
 
 // Component to force initial render
 function InitialRender() {
@@ -23,6 +24,8 @@ export interface AnalysisResult {
   image: string | null
   diagnosis: string
   confidence: number
+  is_cancer?: boolean
+  probabilities?: Record<string, number>
 }
 
 function App() {
@@ -33,7 +36,7 @@ function App() {
     confidence: 98,
   })
 
-  const handleFileUpload = (file: File) => {
+  const handleFileUpload = async (file: File) => {
     const imageUrl = URL.createObjectURL(file)
     setResult((prev) => ({ ...prev, image: imageUrl }))
     setAppState('ANALYZING')
@@ -44,19 +47,33 @@ function App() {
       console.log('Audio playback failed:', error)
     })
 
-    // Mock analysis - minimum 8 seconds to match sound effect duration
-    setTimeout(() => {
-      const diagnoses = ['Benign', 'Melanoma', 'Basal Cell Carcinoma', 'Seborrheic Keratosis']
-      const randomDiagnosis = diagnoses[Math.floor(Math.random() * diagnoses.length)]
-      const randomConfidence = Math.floor(Math.random() * 15) + 85
+    try {
+      // Analyze image via API and enforce minimum wait time for sound effect
+      const [apiResult] = await Promise.all([
+        analyzeSkinLesion(file),
+        new Promise(resolve => setTimeout(resolve, 8000))
+      ])
 
       setResult((prev) => ({
         ...prev,
-        diagnosis: randomDiagnosis,
-        confidence: randomConfidence,
+        diagnosis: apiResult.diagnosis,
+        confidence: Math.round(apiResult.confidence * 100),
+        is_cancer: apiResult.is_cancer,
+        probabilities: apiResult.probabilities,
       }))
       setAppState('RESULT')
-    }, 8000)
+    } catch (error) {
+      console.error('Analysis failed:', error)
+      // Fallback to error result after delay
+      setTimeout(() => {
+        setResult((prev) => ({
+          ...prev,
+          diagnosis: 'Error',
+          confidence: 0,
+        }))
+        setAppState('RESULT')
+      }, 1000)
+    }
   }
 
   const handleDismissReceipt = () => {

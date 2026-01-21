@@ -1,86 +1,112 @@
-Goal
-Build a React SPA front-end app using Vite + TypeScript for a light-hearted MLOps demo called Vibe-Opsy. This first iteration is a mock-up only: all model behavior is simulated with timeouts, loading states, and animated transitions.
+# Project Specification: Vibe-Opsy (Retro 3D Frontend)
 
-Project description
-- Vibe-Opsy is a playful front-end app for a skin-lesion detection demo (Harvard dataset).
-- The experience starts with a bold landing page that introduces the concept.
-- The user uploads an image, sees an animated “processing” step, and then transitions to a results summary.
-- There is no real backend in this version; all results are mocked.
+## 1. Project Overview
 
-Mocked flow
-- Upload button triggers a faux “scan” sequence (progress, subtle UI reactions).
-- After a short delay (2–3s), transition to a results view.
-- Results include a mock label, confidence, and a playful “receipt” printout.
+Build a retro-futuristic, interactive 3D frontend for a skin lesion detection app ("Vibe-Opsy"). The scene features a 3D Macintosh-style computer. The user interacts with the virtual computer screen to upload an image. Upon analysis, a physical "receipt/polaroid" result prints out of the computer's floppy drive slot.
+
+## 2. Tech Stack
+
+* **Framework:** React (Vite)
+* **Language:** TypeScript
+* **3D Engine:** React Three Fiber (R3F) + Three.js
+* **Helpers:** `@react-three/drei` (Essential for `<Html>` and model loading)
+* **Animation:** `framer-motion` (for UI) + `framer-motion-3d` (for 3D object movement)
+* **Styling:** Tailwind CSS (for the screen interfaces)
+* **Package Manager:** **pnpm**
+
+## 3. Assets
+
+The following models are located in the `/public` directory:
+
+1. `macintosh.glb` - The main computer model.
+2. `mouse.glb` - A retro mouse model (to be used as a custom 3D cursor).
+
+## 4. Implementation Requirements
+
+### Phase A: The 3D Scene Setup
+
+* **Canvas:** Full-screen R3F Canvas.
+* **Lighting:** Studio lighting setup to make the beige plastic of the Macintosh look realistic but stylized.
+* **Camera:** Fixed perspective, centered on the computer model.
+
+### Phase B: The Computer Model (`<Computer />`)
+
+* **Loading:** Load `macintosh.glb` using `useGLTF`.
+* **Screen Replacement:**
+* Identify the mesh node corresponding to the glass screen.
+* Overlay/Occlude it using `@react-three/drei`'s `<Html transform occlude>` component to embed a React DOM element directly onto the 3D model's face.
+* **CRT Effect:** The embedded HTML container must have a CSS overlay that simulates a "grainy" CRT monitor (scanlines, slight flicker, vignette).
 
 
-Technical requirements
-- Vite + React + TypeScript
-- Package manager: pnpm
-- 3D option: react-three-fiber (three.js) for lightweight 3D/illusion
-- Motion option: motion.dev for UI transitions and sequencing
+
+### Phase C: The Custom Mouse (`<RetroMouse />`)
+
+* **Cursor Behavior:** The system cursor should be hidden. The `mouse.glb` model should track the user's mouse position on the screen (projected into 3D space).
+* **Cable Removal:**
+* Inspect the `nodes` object returned by `useGLTF`.
+* Identify the mesh node responsible for the "cable/wire".
+* Programmatically set `visible={false}` on that node to detach the mouse.
 
 
-Design moodboard
-- Retro medical kiosk aesthetic: clinical cues + supermarket receipt register vibes.
-- Sharp corners, bold UI frames, and slightly industrial/diagnostic motifs.
-- Use a custom retro font (placeholder to be swapped later).
-- Neutral/sterile/medical palette (cool neutrals + muted accents).
-- Include a 3D element or illusion (e.g., kiosk/scanner or receipt printer).
-- Receipt-print animation after upload, showing date + mock result.
 
-Proposed structure
-- Landing view
-  - Hero title, short description, retro UI accents.
-  - CTA upload button + drag-and-drop target.
-- Scan/processing view
-  - Animated “scan” treatment, progress indicator, playful copy.
-  - Ambient motion and micro-interactions.
-- Results view
-  - Summary (label + confidence + short explanation).
-  - Receipt printout with timestamp, app title, warnings, barcode, and result details.
-  - Reset/“Scan another” action.
+### Phase D: State Management & UI Flow
 
-Components (initial)
-- AppShell: background, global layout, theme tokens.
-- LandingHero: headline, CTA, short copy.
-- UploadPanel: drag/drop, file picker, preview thumbnail.
-- ScannerStage: progress/scan animation.
-- ResultsCard: label/confidence + short explanation.
-- ReceiptPrinter: animated print effect + receipt markup.
+The app functions as a simple state machine with 3 phases:
 
-State and flow (mocked)
-- Idle -> Uploading -> Scanning -> Result.
-- Simulated delays with setTimeout and animation sequencing.
-- Optional: seeded mock results for consistency.
+#### 1. State: `IDLE` (The Upload Screen)
 
-Receipt content (mocked)
-- Header: "Vibe-Opsy Results" + scan timestamp.
-- Warning labels: "Mock demo, not medical advice."
-- Result section: primary label + confidence.
-- Category checklist (7 classes):
-  - Melanocytic nevi
-  - Melanoma
-  - Benign keratosis
-  - Basal cell carcinoma
-  - Actinic keratoses
-  - Vascular lesions
-  - Dermatofibroma
-- Visuals: fake barcode + receipt footer.
+* **Screen UI:** A retro OS interface (Mac OS System 7 style).
+* **Content:** A large, pixelated "UPLOAD" button.
+* **Action:** Clicking the button triggers a hidden file input. On file selection, transition to `ANALYZING`.
 
-Implementation decisions (initial)
-- Single continuous screen with animated state swaps (no routing).
-- Use motion.dev for transitions and sequencing.
-- Use CSS 3D/illusion for the kiosk/receipt (subtle, not hero-sized).
-- Receipt shows exactly one positive category and the rest negative.
-- Primary result label mapping is TBD; iterate after first build.
+#### 2. State: `ANALYZING` (The Matrix Loading)
 
-Tone
-- Lighthearted and subtle humor; playful but not silly.
+* **Screen UI:** Switch to a "Hacker/Terminal" aesthetic.
+* **Style:** Dark black background, bright neon green text (`#00FF41`).
+* **Content:**
+* ASCII art style text.
+* "ANALYZING SUBJECT..." text typing out.
+* A progress bar made of block characters `[||||||.....]`.
 
-Accessibility and UX
-- Keyboard-friendly upload and buttons.
-- Clear loading states and reduced motion fallback.
-- Responsive layout (mobile-first, then desktop).
 
-Non-goals for iteration 1
-- Backend integration, real inference, authentication.
+* **Duration:** `setTimeout` for 3 seconds, then transition to `RESULT`.
+
+#### 3. State: `RESULT` (The Receipt Print)
+
+* **Trigger:** When analysis ends.
+* **Animation Sequence (Crucial):**
+1. **Spawn:** A 3D plane (the receipt) spawns inside the computer model (hidden).
+2. **Eject:** The receipt animates *down and forward* out of the "floppy disk slot" (the gap at the bottom of the Macintosh model).
+3. **Levitate:** Once fully ejected, the receipt smoothly floats towards the camera (z-axis) and centers itself, blurring the background.
+
+
+* **Receipt Design:**
+* Looks like a hybrid of a Polaroid and a CVS receipt.
+* **Header:** "Vibe-Opsy Results" (Dot matrix font).
+* **Body:** Display the uploaded user image (grayscale/dithered filter applied).
+* **Footer:** Mocked diagnosis text (e.g., "Benign - Confidence 98%").
+
+
+* **Dismissal:**
+* User can drag/swipe the receipt to the side (using `useDrag` or Framer Motion).
+* On dismissal, the receipt flies off-screen, and the computer resets to `IDLE`.
+
+
+
+## 5. Development Steps (Prompt for LLM)
+
+Please implement the project following these steps:
+
+1. **Scaffold:** Initialize the project with Vite + React + TS and install dependencies (`three`, `@types/three`, `@react-three/fiber`, `@react-three/drei`, `framer-motion`, `framer-motion-3d`, `autoprefixer`, `postcss`, `tailwindcss`).
+2. **Scene Component:** Set up the basic scene with the Computer model.
+3. **Node Inspection:** Create a temporary `console.log(nodes)` for both models to identify the Screen node name and the Mouse Cable node name.
+4. **Mouse Integration:** Implement the custom mouse cursor and hide the cable mesh.
+5. **Screen Logic:** Build the CRT container and the `Idle` vs `Analyzing` UI states in HTML/CSS.
+6. **Receipt Animation:** Implement the 3D animation path for the result ticket.
+
+---
+
+**User Note for the LLM:**
+
+* For the CRT effect, please use a CSS-based approach (pointer-events-none overlay with `mix-blend-mode: overlay` and a noise background image) to ensure the "Upload" button remains clickable.
+* Use dummy data for the analysis results for now.

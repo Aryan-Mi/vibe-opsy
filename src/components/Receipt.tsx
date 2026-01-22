@@ -2,6 +2,16 @@ import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import { useRef } from 'react'
 import { AnalysisResult } from '../App'
 
+const DIAGNOSIS_LABELS: Record<string, string> = {
+  nv: 'Melanocytic Nevi',
+  mel: 'Melanoma',
+  bkl: 'Benign Keratosis',
+  bcc: 'Basal Cell Carcinoma',
+  akiec: 'Actinic Keratoses',
+  vasc: 'Vascular Lesions',
+  df: 'Dermatofibroma',
+}
+
 interface ReceiptProps {
   result: AnalysisResult
   onDismiss: () => void
@@ -124,7 +134,7 @@ export default function Receipt({ result, onDismiss }: ReceiptProps) {
             </div>
             <div className="text-center py-2">
               <p className="text-2xl font-black dot-matrix tracking-wider text-gray-900 leading-tight">
-                {result.diagnosis.toUpperCase()}
+                {DIAGNOSIS_LABELS[result.diagnosis] || result.diagnosis.toUpperCase()}
               </p>
               {result.is_cancer !== undefined && (
                 <p

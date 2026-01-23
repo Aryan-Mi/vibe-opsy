@@ -177,7 +177,7 @@ Source: https://sketchfab.com/3d-models/macintosh-classic-1991-3b66e98d137d4a23a
 ## Acknowledgments
 
 - Developed as part of DTU's MLOps course (02476)
-- Backend ML pipeline: [vibe-opsy-backend repository](https://github.com/Aryan-Mi/vibe-opsy-backend)
+- Backend ML pipeline: [vibe-opsy-backend repository](https://github.com/Aryan-Mi/dtu-vibe-ops-02476)
 - Dataset: HAM10000 dermatoscopic image dataset
 
 ---
